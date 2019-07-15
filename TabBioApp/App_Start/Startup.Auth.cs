@@ -62,8 +62,8 @@ namespace TabBioApp
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "181464050693-5gubh5s8p8agb8o91f5m11taeq02asfs.apps.googleusercontent.com",
-                ClientSecret = "q2OU0WYlB4MbJopUKAh4lgBk"
+                ClientId = "",
+                ClientSecret = ""
             });
 
 

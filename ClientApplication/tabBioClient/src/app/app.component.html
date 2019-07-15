@@ -10,7 +10,28 @@
   <li routerLinkActive="active">
     <a routerLink="Login">Login</a>
   </li>
+  <li routerLinkActive="active">
+    <a routerLink="editProfile">Edit Profile</a>
+  </li>
+  <li routerLinkActive="active">
+    <a routerLink="editLink">Edit Link</a>
+  </li>
+  <li routerLinkActive="active">
+    <a (click)="signOut()">LogOut</a>
+  </li>
 </ul>
 <div class="container">
+    <div class="form-group">
+        <div class="alert alert-danger" role="alert" *ngIf="errors?.length > 0">
+          <ul>
+            <li *ngFor="let error of errors">
+              {{ error }}
+            </li>
+          </ul>
+        </div>
+        <div class="alert alert-success" *ngIf="SuccessMessage">
+          {{SuccessMessage}}
+        </div>
+      </div>
   <router-outlet></router-outlet>
 </div>

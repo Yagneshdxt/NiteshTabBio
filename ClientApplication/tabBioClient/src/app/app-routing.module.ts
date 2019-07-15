@@ -4,10 +4,18 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
+import { ProfilComponent } from './profil/profil.component';
+import { AuthGuard } from './auth.guard';
+import { EditSMLinkComponent } from './edit-smlink/edit-smlink.component';
 
 const routes: Routes = [
   { path: 'Home', component: HomeComponent },
   { path: 'Register', component: RegisterComponent },
+  { path: 'Login', component: LoginComponent },
+  { path: 'editProfile', component: ProfilComponent, canActivate: [AuthGuard], },
+  { path: 'editLink', component: EditSMLinkComponent, canActivate: [AuthGuard], },
+  //{ path: '/:profileName', component: ViewProfilComponent },
   { path: '', redirectTo: '/Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

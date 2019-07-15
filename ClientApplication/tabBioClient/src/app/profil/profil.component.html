@@ -1,0 +1,58 @@
+<form #EditProfileForm="ngForm" (ngSubmit)="CreateUpdateProfile(EditProfileForm)">
+  <div class="panel panel-primary" >
+    <div class="panel-heading">
+      <h3 class="panel-title">Edit Profile</h3>
+    </div>
+    <div class="panel-body">
+      <div *ngIf="loading" >
+        Loading .... 
+      </div>
+      <div id="loginDiv" style="width:50%" *ngIf="!loading" >
+        <div style="width:50%">
+          <div class="form-group">
+            <div class="alert alert-danger" role="alert" *ngIf="errors?.length > 0">
+              <ul>
+                <li *ngFor="let error of errors">
+                  {{ error }}
+                </li>
+              </ul>
+            </div>
+            <div class="alert alert-success" *ngIf="SuccessMessage">
+              {{SuccessMessage}}
+            </div>
+          </div>
+          <div class="form-group">
+            <img [src]="profilePicturePath" class="" alt="Profile Picture">
+            <input type="file" name="uploadImage" [(ngModel)]="uploadImage" (change)="onFileSelect($event)" id="uploadImage" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="txtName">Name</label>
+            <input type="text" required name="Name" [(ngModel)]="Name" id="txtName" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="txtTitle">Title</label>
+            <input type="text" name="Title" [(ngModel)]="Title" id="txtTitle" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="txtBio">Bio</label>
+            <textarea type="text" id="txtBio" name="Bio" [(ngModel)]="Bio" class="form-control"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="txtWebsite">Website</label>
+            <input type="text" id="txtWebsite" name="website" [(ngModel)]="website" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="txtEmail">Email</label>
+            <input type="text" id="txtEmail" name="Email" readonly [(ngModel)]="Email" class="form-control">
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary" type="button" (click)="AddSocialMediaLink()">Add Social Media link</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <button class="btn btn-primary" type="submit" [disabled]="loading">submit</button>
+    </div>
+  </div>
+</form>

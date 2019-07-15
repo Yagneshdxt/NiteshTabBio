@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
-import {environment} from '../environments/environment'
+import { environment } from '../environments/environment'
 import { Observable, throwError } from 'rxjs';
 // Import Observable from rxjs/Observable
 
@@ -12,27 +12,76 @@ export class WebApiConnectService {
 
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type':  'application/json',
+      'Content-Type': 'application/json',
       'Authorization': 'my-auth-token'
     })
   };
+  public baseUrl: string = environment.baseUrl;
+  public Redirecturl: string;
+  setHttpContentTypeWithToken(contentType: string = 'application/json') {
+    this.httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': contentType,
+        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+      })
+    };
+    //console.log(this.httpOptions);
+    return this.httpOptions;
+  }
 
-  constructor(private _http: HttpClient, private baseUrl: string = environment.baseUrl, private token?: string) { 
+  setCustomeHeader(contentType: string) {
+    this.httpOptions = {
+      headers: new HttpHeaders(JSON.parse(contentType))
+    };
+    console.log(this.httpOptions);
+    return this.httpOptions;
+  }
 
-    if(token !== null || token !== ''){
+  constructor(private _http: HttpClient, @Optional() private token: string = null) {
+    if (token && (token != null || token != '')) {
       this.httpOptions.headers = new HttpHeaders({
-        'Content-Type':  'application/json',
-        'Authorization': token
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
       })
     }
+    this.baseUrl = environment.baseUrl
   }
-  
-  get(UrlPath:string) : Observable<Object> {
+
+  get(UrlPath: string): Observable<Object> {
+    return this._http.get(this.baseUrl + UrlPath, this.setHttpContentTypeWithToken());
+  }
+
+  getAnonymous(UrlPath: string): Observable<Object> {
     return this._http.get(this.baseUrl + UrlPath);
   }
 
-  post(UrlPath:string, payload:Object) : Observable<Object> {
-    return this._http.post(this.baseUrl + UrlPath, payload, this.httpOptions);
+  getWithHeader(UrlPath: string, headerObject: HttpHeaders): Observable<Object> {
+    return this._http.get(this.baseUrl + UrlPath, { headers: headerObject });
+  }
+
+  post(UrlPath: string, payload: Object): Observable<Object> {
+    return this._http.post(this.baseUrl + UrlPath, payload, this.setHttpContentTypeWithToken());
+  }
+
+  postAnonymous(UrlPath: string, payload: Object): Observable<Object> {
+    return this._http.post(this.baseUrl + UrlPath, payload);
+  }
+
+  postAnonymousWithHeader(UrlPath: string, payload: Object, headerObject: HttpHeaders): Observable<Object> {
+    return this._http.post(this.baseUrl + UrlPath, payload, { headers: headerObject });
+  }
+  postWithFile(UrlPath: string, payload: Object): Observable<Object> {
+    return this._http.post(this.baseUrl + UrlPath, payload,
+      this.setCustomeHeader(JSON.stringify({
+        //'Content-Type': 'multipart/form-data',
+        //'Accept': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
+      }))
+    );
+  }
+
+  delete(UrlPath: string): Observable<Object>{
+    return this._http.delete(this.baseUrl + UrlPath, this.setHttpContentTypeWithToken());
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -50,5 +99,50 @@ export class WebApiConnectService {
     return throwError(
       'Something bad happened; please try again later.');
   };
+
+  getMaxItem(arr, prop) {
+    var max;
+    for (var i = 0; i < arr.length; i++) {
+      if (!max || parseInt(arr[i][prop]) > parseInt(max[prop]))
+        max = arr[i];
+    }
+    return max;
+  }
+
+  ModelStateErrorToErrorList(errorResponse: HttpErrorResponse): string[] {
+    let errors = new Array();
+    console.log(errorResponse);
+    if (errorResponse.status === 400) {
+      // handle validation error
+      if (errorResponse.error) {
+        if (errorResponse.error.Message) {
+          errors.push(errorResponse.error.Message);
+        }
+        if (errorResponse.error.error) {
+          errors.push(errorResponse.error.error);
+        }
+        if (errorResponse.error.error_description) {
+          errors.push(errorResponse.error.error_description);
+        }
+        let modelStateProperyErrorLst: string[];
+        for (var modelStateError in errorResponse.error.ModelState) {
+          if (errorResponse.error.ModelState.hasOwnProperty(modelStateError)) {
+            modelStateProperyErrorLst = errorResponse.error.ModelState[modelStateError];
+            modelStateProperyErrorLst.forEach(modelErrorMsg => {
+              errors.push(modelErrorMsg);
+            });
+          }
+        }
+      }
+    } if (errorResponse.status === 401) {
+      errors.push(errorResponse.statusText);
+      errors.push(errorResponse.error.message);
+    }
+    else {
+      errors.push("something went wrong!");
+    }
+
+    return errors;
+  }
 
 }
