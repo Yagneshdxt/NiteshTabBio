@@ -1,0 +1,73 @@
+<form #AddImgForm="ngForm" (ngSubmit)="CreateUpdateSmLink(AddImgForm)">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Add Image</h3>
+    </div>
+    <div class="panel-body">
+      <div *ngIf="loading">
+        Loading ....
+      </div>
+      <div id="loginDiv" style="width:50%" *ngIf="!loading">
+        <div style="width:100%">
+          <div class="form-group">
+            <div class="alert alert-danger" role="alert" *ngIf="errors?.length > 0">
+              <ul>
+                <li *ngFor="let error of errors">
+                  {{ error }}
+                </li>
+              </ul>
+            </div>
+            <div class="alert alert-success" *ngIf="SuccessMessage">
+              {{SuccessMessage}}
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="txtTitle"> Title </label>
+            <input type="text" name="model.Title" [(ngModel)]="model.Title" id="txtTitle" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="txtdescription"> Description </label>
+            <input type="text" name="model.description" [(ngModel)]="model.description" id="txtdescription"
+              class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="txtExternalImagePath"> ImageLink </label>
+            <div class="row">
+              <div class="col-md-3">
+                <select id="Selhttphttps" name="model.httphttps" [(ngModel)]="model.httphttps" class="form-control pull-right">
+                  <option value="http://">http://</option>
+                  <option value="https://">https://</option>
+                </select>
+              </div>
+              <div class="col-md-9">
+                <input type="text" name="model.ExternalImagePath" [(ngModel)]="model.ExternalImagePath"
+                  id="txtExternalImagePath" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="fileuploadedImage"> Upload Image </label>
+            <input type="file" name="uploadedImage" (change)="onFileSelect($event)" id="uploadedImage" class="form-control">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-md-2">
+          <button class="btn btn-primary pull-left" [disabled]="loading" type="button" (click)="backToEditProfile()">
+            Back/Cancel</button>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary" [disabled]="loading" type="button"
+            (click)="FormReset(AddImgForm);"> Reset </button>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary pull-left" [disabled]="loading" type="submit"> Sumbit </button>
+        </div>
+        <div class="col-md-6"></div>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="IsProfileImg" [(ngModel)]="IsProfileImg">
+</form>

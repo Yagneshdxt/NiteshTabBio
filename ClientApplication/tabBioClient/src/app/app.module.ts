@@ -13,6 +13,10 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { ProfilComponent } from './profil/profil.component';
 import { EditSMLinkComponent } from './edit-smlink/edit-smlink.component';
+import { AddImageComponent } from './add-image/add-image.component';
+import { ViewImageComponent } from './view-image/view-image.component';
+import { EditImageComponent } from './edit-image/edit-image.component';
+import { ViewProfileComponent } from './view-profile/view-profile.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +26,11 @@ import { EditSMLinkComponent } from './edit-smlink/edit-smlink.component';
     HomeComponent,
     LoginComponent,
     ProfilComponent,
-    EditSMLinkComponent
+    EditSMLinkComponent,
+    AddImageComponent,
+    ViewImageComponent,
+    EditImageComponent,
+    ViewProfileComponent
   ],
   imports: [
     BrowserModule,

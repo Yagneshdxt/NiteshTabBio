@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">View Image</h3>
+    </div>
+    <div class="panel-body">
+      <div *ngIf="loading">
+        Loading ....
+      </div>
+      <div id="loginDiv" class="center-block" style="width:50%" *ngIf="!loading">
+        <div class="row">
+          <div *ngIf="this.model.length && this.model.length > 0">
+            <div *ngFor="let userImage of this.model; let i=index" class="col-lg-4 col-sm-6 col-xs-12">
+              <a href="#" (click)="aClick()" *ngIf="userImage.InternalImagePath">
+                <img [src]="userImage.InternalImagePath" class="thumbnail img-responsive">
+              </a>
+              <a href="#" (click)="aClick()" *ngIf="userImage.InternalImagePath == '' && userImage.ExternalImagePath">
+                <img [src]="userImage.ExternalImagePath" class="thumbnail img-responsive">
+              </a>
+            </div>
+          </div>
+          <div *ngIf="this.model.length == 0">
+             No records found......
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer">
+    </div>
+  </div>
+
+</div>

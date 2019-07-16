@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Edit Image</h3>
+    </div>
+    <div class="panel-body">
+      <div *ngIf="loading">
+        Loading ....
+      </div>
+      <div id="loginDiv" class="center-block" style="width:50%" *ngIf="!loading">
+        <div class="form-group">
+          <div class="alert alert-danger" role="alert" *ngIf="errors?.length > 0">
+            <ul>
+              <li *ngFor="let error of errors">
+                {{ error }}
+              </li>
+            </ul>
+          </div>
+          <div class="alert alert-success" *ngIf="SuccessMessage">
+            {{SuccessMessage}}
+          </div>
+        </div>
+        <div class="row">
+          <div [sortablejs]="model" *ngIf="this.model.length && this.model.length > 0">
+            <div *ngFor="let userImage of this.model; let i=index" class="col-lg-4 col-sm-6 col-xs-12">
+              <span (click)="deleteImage(userImage.Id)"><b> X </b></span>
+              <a href="#" (click)="aClick()" *ngIf="userImage.InternalImagePath">
+                <img [src]="userImage.InternalImagePath" class="thumbnail img-responsive">
+              </a>
+              <a href="#" (click)="aClick()" *ngIf="userImage.InternalImagePath == '' && userImage.ExternalImagePath">
+                <img [src]="userImage.ExternalImagePath" class="thumbnail img-responsive">
+              </a>
+            </div>
+          </div>
+          <div *ngIf="this.model.length == 0">
+            No records found......
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div *ngIf="this.model.length && this.model.length > 0">
+        <button type="button" class="btn btn-primary" (click)="saveOrder()"> Save Order </button>
+      </div>
+    </div>
+  </div>
+</div>

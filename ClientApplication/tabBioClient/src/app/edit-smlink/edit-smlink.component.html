@@ -33,7 +33,7 @@
           <div [sortablejs]="model.userSiteLinks">
             <div *ngFor="let linkdetail of model.userSiteLinks; let i=index">
               <div class="form-group">
-                <div class="row">
+                <div class="row border-row">
                   <div class="col-md-1">
                     <a href="/editLink" class="btn btn-primary" (click)="DeleteLink(model.userSiteLinks[i])"> <b>X</b>
                     </a>

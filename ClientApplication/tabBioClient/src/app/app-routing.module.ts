@@ -8,6 +8,11 @@ import { LoginComponent } from './login/login.component';
 import { ProfilComponent } from './profil/profil.component';
 import { AuthGuard } from './auth.guard';
 import { EditSMLinkComponent } from './edit-smlink/edit-smlink.component';
+import { AddImageComponent } from './add-image/add-image.component';
+import { ViewImageComponent } from './view-image/view-image.component';
+import { EditImageComponent } from './edit-image/edit-image.component';
+import { ViewProfileComponent } from './view-profile/view-profile.component';
+
 
 const routes: Routes = [
   { path: 'Home', component: HomeComponent },
@@ -15,7 +20,10 @@ const routes: Routes = [
   { path: 'Login', component: LoginComponent },
   { path: 'editProfile', component: ProfilComponent, canActivate: [AuthGuard], },
   { path: 'editLink', component: EditSMLinkComponent, canActivate: [AuthGuard], },
-  //{ path: '/:profileName', component: ViewProfilComponent },
+  { path: 'addImage', component: AddImageComponent, canActivate: [AuthGuard], },
+  { path: 'viewsImage', component: ViewImageComponent },
+  { path: 'EditImage', component: EditImageComponent, canActivate: [AuthGuard], },
+  { path: ':profileName', component: ViewProfileComponent },
   { path: '', redirectTo: '/Home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
