@@ -1,0 +1,6 @@
+.carousel-indicators li { visibility: hidden; }
+
+img{
+    height: 120px;
+    width: 170px;
+}

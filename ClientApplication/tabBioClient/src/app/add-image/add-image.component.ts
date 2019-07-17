@@ -20,7 +20,6 @@ export class AddImageComponent implements OnInit {
   ngOnInit() {
     this.model.httphttps = "https://";
     this.model.IsProfileImg = false;
-    console.log('In NgInit');
   }
 
   onFileSelect(event) {

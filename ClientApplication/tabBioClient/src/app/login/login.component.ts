@@ -3,6 +3,7 @@ import { WebApiConnectService } from '../web-api-connect.service';
 import { NgForm } from '@angular/forms';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.SuccessMessage = null;
-
+    this.webApiService.isUserLoggedIn = false;
     let headerOption = new HttpHeaders().append("Content-Type", "application/x-www-form-urlencoded");
     const payLoad = new HttpParams()
       .set("grant_type", "password")
@@ -43,8 +44,9 @@ export class LoginComponent implements OnInit {
           if (this.webApiService.Redirecturl) {
             Redirecturl = this.webApiService.Redirecturl;
           }
+          this.webApiService.isUserLoggedIn = true;
           this.router.navigateByUrl(Redirecturl);
-          console.log(data)
+          
         },
         (errorResponse) => {
           console.log('oops', errorResponse);

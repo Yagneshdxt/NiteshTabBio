@@ -1,0 +1,49 @@
+<form #AddVideoForm="ngForm" (ngSubmit)="SubmitAddVideo(AddVideoForm)">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Add Video</h3>
+    </div>
+    <div class="panel-body">
+      <div *ngIf="loading">
+        Loading ....
+      </div>
+      <div id="loginDiv" style="width:50%" *ngIf="!loading">
+        <div style="width:100%">
+          <div class="form-group">
+            <div class="alert alert-danger" role="alert" *ngIf="errors?.length > 0">
+              <ul>
+                <li *ngFor="let error of errors">
+                  {{ error }}
+                </li>
+              </ul>
+            </div>
+            <div class="alert alert-success" *ngIf="SuccessMessage">
+              {{SuccessMessage}}
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="txtVideoUrl"> Youtube Video Id </label>
+            <input type="text" name="model.VideoUrl" (blur)="setIframeUrl(model.VideoUrl)" [(ngModel)]="model.VideoUrl"
+              id="txtVideoUrl" class="form-control">
+          </div>
+          <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" [src]="iframeSrc" *ngIf="iframeSrc">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-md-2">
+          <button class="btn btn-primary" [disabled]="loading" type="button" (click)="FormReset(AddVideoForm);"> Reset
+          </button>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary pull-left" [disabled]="loading" type="submit"> Sumbit </button>
+        </div>
+        <div class="col-md-8"></div>
+      </div>
+    </div>
+  </div>
+</form>
